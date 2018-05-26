@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d359b35f-83a1-43b4-ac4f-53747e9c027f" name="Default" comment="" />
+    <list default="true" id="d359b35f-83a1-43b4-ac4f-53747e9c027f" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/decode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/decode.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inst_data_riscv_trace_project_2_short.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inst_data_riscv_trace_project_2_short.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Decoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Decoder.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,7 +19,7 @@
       <file leaf-file-name="Pj2.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Pj2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="552">
               <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -36,7 +40,7 @@
       <file leaf-file-name="helper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/helper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
+            <state relative-caret-position="322">
               <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
             </state>
           </provider>
@@ -45,8 +49,8 @@
       <file leaf-file-name="Decoder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Decoder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="760">
-              <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+            <state relative-caret-position="1726">
+              <caret line="129" column="40" lean-forward="true" selection-start-line="129" selection-start-column="40" selection-end-line="129" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -345,9 +349,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pipeline.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Pj2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
+        <state relative-caret-position="552">
           <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -357,15 +368,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/helper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
+        <state relative-caret-position="322">
           <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pipeline.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
@@ -378,8 +382,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Decoder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="760">
-          <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+        <state relative-caret-position="1726">
+          <caret line="129" column="40" lean-forward="true" selection-start-line="129" selection-start-column="40" selection-end-line="129" selection-end-column="40" />
         </state>
       </provider>
     </entry>

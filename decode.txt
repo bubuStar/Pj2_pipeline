@@ -1,3 +1,10 @@
+java substring: start index, finish+1
+index used in java String.substring method: 
+opCode:25,32
+Rs1:12,17
+Rs2:7,12
+Rd:20,25
+
 RISC-V has 32 registers. x0 = zero
 
 I type load instructions:
@@ -90,17 +97,8 @@ SLTU
 
 treat as nop:
 
-opcode: 0001111
-FENCE
-FENCE.I
-
-opcode: 1110011
-RDCYCLE
-RDCYCLEH
-RDTIME
-RDTIMEH
-RDINSTRET
-RDINSTRETH
+every other opcode
 
 
 v 1.1:JALR should be I type not J type
+v1.2 update index used in Java
