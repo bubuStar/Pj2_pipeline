@@ -87,7 +87,7 @@ public class Decoder {
             String Rd = parseRdFrom7to11(instCode);
             System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode +
                     "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("0001111")==true | opcode.equals("1110011")==true){//treat as nop
+        }else {//treat as nop
             String Rs1 = R0;
             String Rs2 = R0;
             String Rd = R0;
