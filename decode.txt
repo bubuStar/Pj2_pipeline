@@ -1,0 +1,106 @@
+RISC-V has 32 registers. x0 = zero
+
+I type load instructions:
+opcode: 0000011
+source registers: rs1 [15:19] 
+destination register: rd [7:11]
+LB
+LH
+LW
+LBU
+LHU
+
+I type arithmetic instructions:
+opcode: 0010011
+source registers: rs1 [15:19] 
+destination register: rd [7:11]
+SLLI
+SRLI
+SRAI
+ADDI
+XORI
+ORI
+ANDI
+SLTI
+SLTIU
+
+I type jump instructions JALR:
+opcode: 1100111
+source registers: rs1 [15:19] 
+destination register: rd [7:11]
+JALR
+
+S type store instructions:
+opcode: 0100011
+source registers: rs1 [15:19] rs2[20:24]
+destination register: none
+read rs1, rs2 (read data to be stored from rs2, read address to be stored from rs1, no destination register)
+SB
+SH
+SW
+
+B type 
+SB type branch instructions:
+source registers: rs1 [15:19] rs2 [20:24]
+destination register: none
+opcode: 1100011
+BEQ
+BNE
+BLT
+BGE
+BLTU
+BGEU
+
+(originally not SB type, treat as branch)
+opcode: 1110011
+source registers: rs1 [15:19] rs2 [20:24]
+destination register: none
+SCALL
+SBREAK
+
+J type jump instructions: 
+source registers: none
+destination register: rd [7:11]
+opcode: 1101111
+JAL
+
+
+U type load upper immediate instructions:	
+source registers: none
+destination register: rd [7:11]
+opcode: 0110111
+LUI
+opcode: 0010111
+AUIPC
+
+R type arithmetic instructions:	
+opcode: 0110011
+source registers: rs1 [15:19] rs2 [20:24]
+destination register: rd [7:11]
+SLL	
+SRL	
+SRA	
+ADD	
+SUB	
+XOR
+OR
+AND
+SLT
+SLTU
+
+treat as nop:
+
+opcode: 0001111
+FENCE
+FENCE.I
+
+opcode: 1110011
+RDCYCLE
+RDCYCLEH
+RDTIME
+RDTIMEH
+RDINSTRET
+RDINSTRETH
+
+
+v 1.1:JALR should be I type not J type
