@@ -1,6 +1,52 @@
 import java.io.*;
+import java.util.*;
 
 public class helper {
+
+    public static String hexToBinary(String instr){
+        int[] map = {10, 11, 12, 13, 14, 15};
+        char[] chs = instr.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for(char c : chs){
+            int i = c - '0';
+            if(c-'a' >=0 && c-'a' <= 5){
+                i = map[c-'a'];
+            }
+            String a = Integer.toBinaryString(i);
+            int n = a.length();
+            while(n < 4){
+                sb.append("0");
+                n++;
+            }
+            sb.append(a);
+        }
+        return sb.toString();
+    }
+
+    public static List<String> readInstructionFile(String filePath) throws IOException {
+        List<String> res = new ArrayList<>();     //hashMap
+        FileReader f = new FileReader(filePath);
+        BufferedReader br = new BufferedReader(f);
+        String line = ""; // 用来保存每行读取的内容
+        //line = reader.readLine(); // 读取第一行
+        while ((line = br.readLine()) != null) {
+            res.add(line);
+        }
+        br.close();
+        return res;
+    }
+
+    public List<String> ReadNonSizeFile(File f) throws IOException{
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        List<String> ret = new ArrayList<>();
+        String s = "";
+        while((s = br.readLine()) != null){
+            ret.add(s);
+        }
+        br.close();
+        return ret;
+    }
+
 
     public static byte[] hexStringToByte(String hex) {//hex String to byte, output decimal value of the byte if print
         byte[] b = new byte[hex.length() / 2];
@@ -22,6 +68,7 @@ public class helper {
             return (c - 'A' + 10) & 0x0f;
         return (c - '0') & 0x0f;
     }
+
 
     public static String reverseString(String inputString){
         String res = "";
@@ -119,4 +166,6 @@ public class helper {
         is.close();
         return res;
     }
+
+
 }

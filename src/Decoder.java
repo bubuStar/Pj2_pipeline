@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.*;
 
 public class Decoder {
 
@@ -14,26 +15,30 @@ public class Decoder {
 
     public static void getInstructionFromFile() throws IOException {
 
-        String dataStringFromFile = helper.readTXTFile(instructionFilePath);
+        List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
+        System.out.println("data file size = "+ dataStringList.size());
 
-        byte[] instbyte = helper.hexStringToByte(dataStringFromFile);
-        int[][] instBits = helper.getBits(instbyte, 20, 32);
-        //int[][] instBitsReversed = reverseIntArray(instBits);
-        char[][] instBitsChar = new char[instBits.length][instBits[0].length]; //row=20;column=32
+        //String dataStringFromFile = helper.readTXTFile(instructionFilePath);
+//
+//        byte[] instbyte = helper.hexStringToByte(dataStringFromFile);
+//        int[][] instBits = helper.getBits(instbyte, 20, 32);
+//        //int[][] instBitsReversed = reverseIntArray(instBits);
+//        char[][] instBitsChar = new char[instBits.length][instBits[0].length]; //row=20;column=32
+//
+//        for (int i = 0; i < instBitsChar.length; i++) {
+//            for (int j = 0; j < instBits[0].length; j++) {
+//                instBitsChar[i][j] = (char) (instBits[i][j] + '0');
+//                //   System.out.print(addBitsChar[i][j]);
+//            }
+//            // System.out.println(addBitsChar[i]);
+//        }
 
-        for (int i = 0; i < instBitsChar.length; i++) {
-            for (int j = 0; j < instBits[0].length; j++) {
-                instBitsChar[i][j] = (char) (instBits[i][j] + '0');
-                //   System.out.print(addBitsChar[i][j]);
-            }
-            // System.out.println(addBitsChar[i]);
-        }
-
-        String newInstruction = String.valueOf(instBitsChar[0]);
-        System.out.println("non-reversed instruction code = "+ newInstruction);
-        String opCode = newInstruction.substring(25,32);
+        String newInstruction = dataStringList.get(1);
+        System.out.println("non-reversed instruction hex = "+ newInstruction);
+        String newInstrucBinary = helper.hexToBinary(newInstruction);
+        String opCode = newInstrucBinary.substring(25,32);
         //System.out.println(opCode);
-        parseOpcode(newInstruction,opCode);
+        parseOpcode(newInstrucBinary,opCode);
     }
 
     public static void parseOpcode (String instCode, String opcode) {
@@ -111,29 +116,29 @@ public class Decoder {
         return Rd;
     }
 
-    public static int[][] reverseIntArray(int[][] intArray){
-        for(int i = 0;i < intArray.length; i ++){
-            reverseArray(intArray[i], 0, intArray[0].length-1);
-        }
-        return intArray;
-    }
+//    public static int[][] reverseIntArray(int[][] intArray){
+//        for(int i = 0;i < intArray.length; i ++){
+//            reverseArray(intArray[i], 0, intArray[0].length - 1);
+//        }
+//        return intArray;
+//    }
 
-    public static void swap(int[] A, int a, int b){
-        int temp;
-        temp = A[a];
-        A[a] = A[b];
-        A[b] = temp;
-    }
-
-    public static void reverseArray(int A[], int start, int end){
-
-        if(start == end || start > end){
-            return;
-        }
-        if(start < end){
-            swap(A,start, end);
-        }
-        reverseArray(A, ++start, --end);
-    }
+//    public static void swap(int[] A, int a, int b){
+//        int temp;
+//        temp = A[a];
+//        A[a] = A[b];
+//        A[b] = temp;
+//    }
+//
+//    public static void reverseArray(int A[], int start, int end){
+//
+//        if(start == end || start > end){
+//            return;
+//        }
+//        if(start < end){
+//            swap(A,start, end);
+//        }
+//        reverseArray(A, ++start, --end);
+//    }
 }
 

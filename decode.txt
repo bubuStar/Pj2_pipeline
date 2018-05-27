@@ -102,3 +102,11 @@ every other opcode
 
 v 1.1:JALR should be I type not J type
 v1.2 update index used in Java
+
+
+non-reversed instruction code = 11111011000001110000011100010011
+instCode : 11111011000001110000011100010011
+opcode : 0010011
+Rs1：01110
+Rs2: 10000
+Rd: 01110
