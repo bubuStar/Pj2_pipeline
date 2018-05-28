@@ -33,12 +33,32 @@ public class Decoder {
 //            // System.out.println(addBitsChar[i]);
 //        }
 
-        String newInstruction = dataStringList.get(1);
-        System.out.println("non-reversed instruction hex = "+ newInstruction);
-        String newInstrucBinary = helper.hexToBinary(newInstruction);
-        String opCode = newInstrucBinary.substring(25,32);
+//        String newInstruction = dataStringList.get(2);
+//        System.out.println("non-reversed instruction hex = "+ newInstruction);
+//        String newInstrucBinary = helper.hexToBinary(newInstruction);
+//        Instruction instruction = new Instruction(newInstrucBinary);
+
+
+//        System.out.println("Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
+//                "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
+//                +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n");
+
+        ArrayList instructionArrayList = new ArrayList();
+
+        for (int i = 0; i < dataStringList.size(); i ++){
+            String newInstruction = dataStringList.get(i);
+            Instruction instruction = new Instruction(newInstruction);
+            instructionArrayList.add(newInstruction);
+            System.out.println("Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
+                    "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
+                    +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n");
+        }
+
+//        List<String> dataStringList = new List<String>;
+
+//        String opCode = newInstrucBinary.substring(25,32);
         //System.out.println(opCode);
-        parseOpcode(newInstrucBinary,opCode);
+//        parseOpcode(newInstrucBinary,opCode);
     }
 
     public static void parseOpcode (String instCode, String opcode) {

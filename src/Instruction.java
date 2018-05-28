@@ -2,23 +2,27 @@ public class Instruction {
 
     static final String R0 = "00000";
 
+    public String hexCode;
     public String binaryCode;
     public String address;
     public int addressValue;
+    public String nextAddress;
+    public int nextAddressValue;
+
     public int clockTimeStamp;
 
-    public String type; 
+    public String type;
     public int typeCode; // 0: 1: 2: 3: 4: 5: 6: 7:
     public String opcode;
     public String rs1;
     public String rs2;
     public String rd;
 
-
-    public Instruction(String binaryCode)
+    public Instruction(String hexCode)
     {
+        this.hexCode = hexCode;
+        this.binaryCode = helper.hexToBinary(hexCode);
         parseOpcode(binaryCode);
-
     }
 
     private void parseOpcode (String instCode) {
@@ -74,15 +78,15 @@ public class Instruction {
     }
 
     private void setInstruction(String Rs1, String Rs2, String Rd, String opcode, String typeString,
-                                String typeCode){
+                                int typeCode){
         this.rs1 = Rs1;
         this.rs2 = Rs2;
         this.rd = Rd;
         this.opcode = opcode;
         this.type = typeString;
         this.typeCode = typeCode;
-        System.out.println("instCode : "+this.binaryCode+"\n"+ "opcode : " + opcode + "\n"+
-                "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        System.out.println("instCode : "+this.binaryCode+"\n"+ "opcode : " + opcode + "\n"+
+//                "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
     }
 
     private String parseRs1From15to19(String instCode){
