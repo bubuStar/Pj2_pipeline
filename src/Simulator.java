@@ -1,8 +1,6 @@
-public class Pipeline {
+public class Simulator {
 
     int[][] scoreboard;
     int clock;
 
-
 }
-
