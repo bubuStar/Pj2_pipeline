@@ -4,9 +4,9 @@ public class Instruction {
 
     public String hexCode;
     public String binaryCode;
-    public String address;
+//    public String address;
     public int addressValue;
-    public String nextAddress;
+//    public String nextAddress;
     public int nextAddressValue;
 
     public int clockTimeStamp;
@@ -18,11 +18,26 @@ public class Instruction {
     public String rs2;
     public String rd;
 
+    public boolean isTakenBranch; //只代表不连续的地址 不是真正的taken branch的数量
+
     public Instruction(String hexCode)
     {
         this.hexCode = hexCode;
         this.binaryCode = helper.hexToBinary(hexCode);
         parseOpcode(binaryCode);
+    }
+
+    public void displayInstruction() {
+
+    }
+
+    public void setIsBranch(int addressValue, int nextAddressValue) {
+        if (this.nextAddressValue - this.addressValue != 4){
+            isTakenBranch = true;
+        } else {
+            isTakenBranch = false;
+        }
+        //last one 0010011 I-ALU
     }
 
     private void parseOpcode (String instCode) {

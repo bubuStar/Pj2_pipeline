@@ -8,15 +8,48 @@ public class Decoder {
     static String instructionFilePath = "inst_data_riscv_trace_project_2_short.txt";
     static String addressFilePath = "inst_addr_riscv_trace_project_2_short.txt";
 
-    public static void getAddressFromFile() throws IOException {
-        int[] addressArray = helper.readAddressFile(addressFilePath);
-        //System.out.println(addressArray[19]);
-    }
+//    public static void getAddressFromFile() throws IOException {
+//
+//
+//
+//    }
 
     public static void getInstructionFromFile() throws IOException {
 
+        int[] addressArray = helper.readAddressFile(addressFilePath);
+        System.out.println(addressArray[0]);
+
         List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
         System.out.println("data file size = "+ dataStringList.size());
+
+//        ArrayList instructionArrayList = new ArrayList();
+        List<Instruction> instructionArrayList = new ArrayList<>();
+
+        for (int i = 0; i < dataStringList.size(); i ++){
+            String newInstruction = dataStringList.get(i);
+            Instruction instruction = new Instruction(newInstruction);
+            instruction.addressValue = addressArray[i];
+
+            if (i != (dataStringList.size() - 1 )){
+                instruction.nextAddressValue = addressArray[i+1];
+                instruction.setIsBranch(instruction.addressValue, instruction.nextAddressValue);
+            } else {
+                instruction.nextAddressValue = 12296;
+                instruction.isTakenBranch = false;
+            }
+
+            instructionArrayList.add(instruction);
+            System.out.println("============================================="+"\n" + "Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
+                    "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
+                    +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n"
+                    +"isBranch: "+instruction.isTakenBranch+"\n"+"nextAddressValue: "+instruction.nextAddressValue+"\n"
+                    +"============================================="+"\n");
+        }
+
+        Instruction testInstruction = instructionArrayList.get(0);
+//        System.out.println("instructionArrayList test item : "+testInstruction.hexCode);
+
+
 
         //String dataStringFromFile = helper.readTXTFile(instructionFilePath);
 //
@@ -43,16 +76,7 @@ public class Decoder {
 //                "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
 //                +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n");
 
-        ArrayList instructionArrayList = new ArrayList();
 
-        for (int i = 0; i < dataStringList.size(); i ++){
-            String newInstruction = dataStringList.get(i);
-            Instruction instruction = new Instruction(newInstruction);
-            instructionArrayList.add(newInstruction);
-            System.out.println("Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
-                    "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
-                    +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n");
-        }
 
 //        List<String> dataStringList = new List<String>;
 
@@ -61,80 +85,80 @@ public class Decoder {
 //        parseOpcode(newInstrucBinary,opCode);
     }
 
-    public static void parseOpcode (String instCode, String opcode) {
-        if (opcode.equals("0000011")==true) { //I type load instructions:
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = R0;
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("0010011")==true){ //I type arithmetic instructions:
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = R0;
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("0100011")==true){//S type store instructions
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = parseRs2From20to24(instCode);
-            String Rd = R0;
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("1100011")==true | opcode.equals("1110011")==true ){
-            //SB/B type branch instructions or SYSTEM treat as SB type branch instructions
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = parseRs2From20to24(instCode);
-            String Rd = R0;
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("1100111")==true){//I type jump instructions JALR
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = R0;
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("1101111")==true){//J type jump instructions JAL
-            String Rs1 = R0;
-            String Rs2 = R0;
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("0110111")==true| opcode.equals("0010111")==true){
-                                        //U type load upper immediate instructions
-            String Rs1 = R0;
-            String Rs2 = R0;
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else if (opcode.equals("0110011")==true){//R type arithmetic instructions
-            String Rs1 = parseRs1From15to19(instCode);
-            String Rs2 = parseRs2From20to24(instCode);
-            String Rd = parseRdFrom7to11(instCode);
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }else {//treat as nop
-            String Rs1 = R0;
-            String Rs2 = R0;
-            String Rd = R0;
-            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
-                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
-        }
-    }
-
-    public static String parseRs1From15to19(String instCode){
-        String Rs1 = instCode.substring(12,17);
-        return Rs1;
-    }
-
-    public static String parseRs2From20to24(String instCode){
-        String Rs2 = instCode.substring(7,12);
-        return Rs2;
-    }
-
-    public static String parseRdFrom7to11(String instCode){
-        String Rd = instCode.substring(20,25);
-        return Rd;
-    }
+//    public static void parseOpcode (String instCode, String opcode) {
+//        if (opcode.equals("0000011")==true) { //I type load instructions:
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = R0;
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("0010011")==true){ //I type arithmetic instructions:
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = R0;
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("0100011")==true){//S type store instructions
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = parseRs2From20to24(instCode);
+//            String Rd = R0;
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("1100011")==true | opcode.equals("1110011")==true ){
+//            //SB/B type branch instructions or SYSTEM treat as SB type branch instructions
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = parseRs2From20to24(instCode);
+//            String Rd = R0;
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("1100111")==true){//I type jump instructions JALR
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = R0;
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("1101111")==true){//J type jump instructions JAL
+//            String Rs1 = R0;
+//            String Rs2 = R0;
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("0110111")==true| opcode.equals("0010111")==true){
+//                                        //U type load upper immediate instructions
+//            String Rs1 = R0;
+//            String Rs2 = R0;
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else if (opcode.equals("0110011")==true){//R type arithmetic instructions
+//            String Rs1 = parseRs1From15to19(instCode);
+//            String Rs2 = parseRs2From20to24(instCode);
+//            String Rd = parseRdFrom7to11(instCode);
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }else {//treat as nop
+//            String Rs1 = R0;
+//            String Rs2 = R0;
+//            String Rd = R0;
+//            System.out.println("instCode : "+instCode+"\n"+ "opcode : " + opcode + "\n"+
+//                    "Rs1："+Rs1+"\n"+"Rs2: "+Rs2+"\n"+"Rd: "+Rd+"\n");
+//        }
+//    }
+//
+//    public static String parseRs1From15to19(String instCode){
+//        String Rs1 = instCode.substring(12,17);
+//        return Rs1;
+//    }
+//
+//    public static String parseRs2From20to24(String instCode){
+//        String Rs2 = instCode.substring(7,12);
+//        return Rs2;
+//    }
+//
+//    public static String parseRdFrom7to11(String instCode){
+//        String Rd = instCode.substring(20,25);
+//        return Rd;
+//    }
 
 //    public static int[][] reverseIntArray(int[][] intArray){
 //        for(int i = 0;i < intArray.length; i ++){

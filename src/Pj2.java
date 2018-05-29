@@ -23,7 +23,7 @@ public class Pj2 {
 //                "block size："+blockSize+"\n"+"way associate "+way);
 
         Decoder decoder = new Decoder();
-        decoder.getAddressFromFile();
+//        decoder.getAddressFromFile();
         decoder.getInstructionFromFile();
     }
 }

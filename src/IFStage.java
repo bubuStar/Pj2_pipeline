@@ -1,11 +1,10 @@
 public class IFStage extends Stage  {
 
-    int PC;
+    public Instruction instruction;
 
     public IFStage(Simulator simulator)
     {
         super(simulator);
-        PC = 0;
     }
 
     /***
