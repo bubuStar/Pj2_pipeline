@@ -3,6 +3,8 @@ import java.util.*;
 
 public class helper {
 //this is a test for github 1:00 am 29th,May
+
+
     public static String hexToBinary(String instr){
         int[] map = {10, 11, 12, 13, 14, 15};
         char[] chs = instr.toCharArray();
@@ -148,7 +150,7 @@ public class helper {
     }
 
     public static int [] readAddressFile(String filePath) throws IOException {
-        int [] res = new int[20];
+        int [] res = new int[123657];
         StringBuffer sb = new StringBuffer();
         InputStream is = new FileInputStream(filePath);
         String line; // 用来保存每行读取的内容

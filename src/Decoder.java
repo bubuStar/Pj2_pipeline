@@ -5,9 +5,18 @@ public class Decoder {
 
     static final String R0 = "00000";
 
-    static String instructionFilePath = "inst_data_riscv_trace_project_2_short.txt";
-    static String addressFilePath = "inst_addr_riscv_trace_project_2_short.txt";
-
+    static String instructionFilePath = "inst_data_riscv_trace_project_2.txt";
+    static String addressFilePath = "inst_addr_riscv_trace_project_2.txt";
+    static int numberOfLw = 0;
+    static int numberOfBranch = 0;
+    static int numberOfJAL = 0;
+    static int numberOfJALR = 0;
+    static int numberOfR_ALU = 0;
+    static int numberOfI_ALU = 0;
+    static int numberOfSW = 0;
+    static int numberOfNop = 0;
+    static int numberOfULw = 0;
+    static int numberOfTakenBranch = 0;
 //    public static void getAddressFromFile() throws IOException {
 //
 //
@@ -17,7 +26,7 @@ public class Decoder {
     public static void getInstructionFromFile() throws IOException {
 
         int[] addressArray = helper.readAddressFile(addressFilePath);
-        System.out.println(addressArray[0]);
+       // System.out.println(addressArray[0]);
 
         List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
         System.out.println("data file size = "+ dataStringList.size());
@@ -31,7 +40,7 @@ public class Decoder {
             instruction.addressValue = addressArray[i];
 
             if (i != (dataStringList.size() - 1 )){
-                instruction.nextAddressValue = addressArray[i+1];
+                instruction.nextAddressValue = addressArray[i + 1];
                 instruction.setIsBranch(instruction.addressValue, instruction.nextAddressValue);
             } else {
                 instruction.nextAddressValue = 12296;
@@ -39,13 +48,26 @@ public class Decoder {
             }
 
             instructionArrayList.add(instruction);
-            System.out.println("============================================="+"\n" + "Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
-                    "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
-                    +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n"
-                    +"isBranch: "+instruction.isTakenBranch+"\n"+"nextAddressValue: "+instruction.nextAddressValue+"\n"
-                    +"============================================="+"\n");
-        }
+//            System.out.println("============================================="+"\n" + "Instruction: "+newInstruction+"\n" + "instCode : "+instruction.binaryCode+"\n"+ "opcode : " + instruction.opcode + "\n"+
+//                    "Rs1："+instruction.rs1+"\n"+"Rs2: "+instruction.rs2+"\n"+"Rd: "+instruction.rd+"\n"
+//                    +"Type: "+instruction.type+"\n" +"TypeCode: "+instruction.typeCode+"\n"
+//                    +"isBranch: "+instruction.isTakenBranch+"\n"+"nextAddressValue: "+instruction.nextAddressValue+"\n"
+//                    +"============================================="+"\n");
 
+        }
+        System.out.println(
+                "BranchNumber      : " + numberOfBranch + "  " + (double)numberOfBranch / 123657 + "  \n"
+                + "R_ALUNumber       : " + numberOfR_ALU+ "  " + (double)numberOfR_ALU / 123657 + "\n"
+                + "I_ALUNumber       : " + numberOfI_ALU + "  " + (double)numberOfI_ALU / 123657 + "\n"
+                + "Total ALU Number  : " + String.valueOf(numberOfI_ALU + numberOfR_ALU) + "  " + (double)(numberOfI_ALU + numberOfR_ALU) / 123657+"\n"
+                + "LWNumber          : " + numberOfLw + "  " + (double)numberOfLw / 123657 + "\n"
+                + "ULWNumber         : " + numberOfULw+"   " + (double)numberOfULw/ 123657 + "\n"
+                + "JALNumber         : " + numberOfJAL +"   " + (double)numberOfJAL/ 123657 + "\n"
+                + "JALRNumber        : " + numberOfJALR+"   " + (double)numberOfJALR/ 123657 + "\n"
+                + "swNumber          : " + numberOfSW+"  " + (double)numberOfSW/ 123657 + "\n"
+                + "NopNumber         : " + numberOfNop+"   " + (double)numberOfNop/ 123657 + "\n"
+                + "TakenBranchNumber : " + numberOfTakenBranch+"      " + (double)numberOfBranch / 123657 + "\n"
+                + "instruction cache accesses: " +String.valueOf (123657 + numberOfJAL + numberOfJALR /*taken branch*/)+"     \n");//taken branch 个数未定，睡醒讨论
         Instruction testInstruction = instructionArrayList.get(0);
 //        System.out.println("instructionArrayList test item : "+testInstruction.hexCode);
 

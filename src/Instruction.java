@@ -32,7 +32,7 @@ public class Instruction {
     }
 
     public void setIsBranch(int addressValue, int nextAddressValue) {
-        if (this.nextAddressValue - this.addressValue != 4){
+        if (nextAddressValue - addressValue != 4){//去掉了this,如果是this就不会调用形参了
             isTakenBranch = true;
         } else {
             isTakenBranch = false;
@@ -47,48 +47,60 @@ public class Instruction {
             String Rs2 = R0;
             String Rd = parseRdFrom7to11(instCode);
             setInstruction(Rs1,Rs2,Rd, opcode, "I-Load",0);
+            Decoder.numberOfLw++;
         }else if (opcode.equals("0010011")==true){ //I type arithmetic instructions:
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = R0;
             String Rd = parseRdFrom7to11(instCode);
             setInstruction(Rs1,Rs2,Rd, opcode, "I-ALU",1);
+            Decoder.numberOfI_ALU++;
         }else if (opcode.equals("0100011")==true){//S type store instructions
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = parseRs2From20to24(instCode);
             String Rd = R0;
             setInstruction(Rs1,Rs2,Rd, opcode, "S-SW",2);
+            Decoder.numberOfSW++;
         }else if (opcode.equals("1100011")==true | opcode.equals("1110011")==true ){
             //SB/B type branch instructions or SYSTEM treat as SB type branch instructions
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = parseRs2From20to24(instCode);
             String Rd = R0;
             setInstruction(Rs1,Rs2,Rd, opcode, "B-branch",3);
+            Decoder.numberOfBranch++;
+            if(isTakenBranch)
+                Decoder.numberOfTakenBranch++;
         }else if (opcode.equals("1100111")==true){//I type jump instructions JALR
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = R0;
             String Rd = parseRdFrom7to11(instCode);
             setInstruction(Rs1,Rs2,Rd, opcode, "I-JALR",4);
+            Decoder.numberOfJALR++;
         }else if (opcode.equals("1101111")==true){//J type jump instructions JAL
             String Rs1 = R0;
             String Rs2 = R0;
             String Rd = parseRdFrom7to11(instCode);
             setInstruction(Rs1,Rs2,Rd, opcode, "J-JAL",5);
+            Decoder.numberOfJAL++;
         }else if (opcode.equals("0110111")==true| opcode.equals("0010111")==true){
             //U type load upper immediate instructions
             String Rs1 = R0;
             String Rs2 = R0;
             String Rd = parseRdFrom7to11(instCode);
             setInstruction(Rs1,Rs2,Rd, opcode, "U-LW",6);
+            Decoder.numberOfULw++;
         }else if (opcode.equals("0110011")==true){//R type arithmetic instructions
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = parseRs2From20to24(instCode);
             String Rd = parseRdFrom7to11(instCode);
+
             setInstruction(Rs1,Rs2,Rd, opcode, "R-ALU",7);
+            Decoder.numberOfR_ALU++;
         }else {//treat as nop
             String Rs1 = R0;
             String Rs2 = R0;
             String Rd = R0;
             setInstruction(Rs1,Rs2,Rd, opcode, "NOP",8);
+            Decoder.numberOfNop++;
         }
     }
 
