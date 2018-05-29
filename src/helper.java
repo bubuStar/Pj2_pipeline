@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class helper {
-
+//this is a test for github 12:51 am 29th,May
     public static String hexToBinary(String instr){
         int[] map = {10, 11, 12, 13, 14, 15};
         char[] chs = instr.toCharArray();

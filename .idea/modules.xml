@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Pj2.iml" filepath="$PROJECT_DIR$/Pj2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pj2_pipeline.iml" filepath="$PROJECT_DIR$/Pj2_pipeline.iml" />
     </modules>
   </component>
 </project>
