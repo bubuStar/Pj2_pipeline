@@ -41,7 +41,7 @@ public class Decoder {
 
             if (i != (dataStringList.size() - 1 )){
                 instruction.nextAddressValue = addressArray[i + 1];
-                instruction.setIsBranch(instruction.addressValue, instruction.nextAddressValue);
+                instruction.setIsBranch(instruction.typeCode, instruction.addressValue, instruction.nextAddressValue);
             } else {
                 instruction.nextAddressValue = 12296;
                 instruction.isTakenBranch = false;

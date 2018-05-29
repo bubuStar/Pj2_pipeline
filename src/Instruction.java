@@ -9,7 +9,7 @@ public class Instruction {
 //    public String nextAddress;
     public int nextAddressValue;
 
-    public int clockTimeStamp;
+    public int timeStamp;
 
     public String type;
     public int typeCode; // 0: 1: 2: 3: 4: 5: 6: 7:
@@ -31,12 +31,16 @@ public class Instruction {
 
     }
 
-    public void setIsBranch(int addressValue, int nextAddressValue) {
+    public void setIsBranch(int typeCode, int addressValue, int nextAddressValue) {
         if (nextAddressValue - addressValue != 4){//去掉了this,如果是this就不会调用形参了
             isTakenBranch = true;
+            if (3 == typeCode){
+                    Decoder.numberOfTakenBranch++;
+            }
         } else {
             isTakenBranch = false;
         }
+
         //last one 0010011 I-ALU
     }
 
@@ -67,8 +71,7 @@ public class Instruction {
             String Rd = R0;
             setInstruction(Rs1,Rs2,Rd, opcode, "B-branch",3);
             Decoder.numberOfBranch++;
-            if(isTakenBranch)
-                Decoder.numberOfTakenBranch++;
+
         }else if (opcode.equals("1100111")){//I type jump instructions JALR
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = R0;
