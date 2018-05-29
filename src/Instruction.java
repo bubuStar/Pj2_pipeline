@@ -60,7 +60,7 @@ public class Instruction {
             String Rd = R0;
             setInstruction(Rs1,Rs2,Rd, opcode, "S-SW",2);
             Decoder.numberOfSW++;
-        }else if (opcode.equals("1100011")| opcode.equals("1110011") ){
+        }else if (opcode.equals("1100011")|| opcode.equals("1110011") ){
             //SB/B type branch instructions or SYSTEM treat as SB type branch instructions
             String Rs1 = parseRs1From15to19(instCode);
             String Rs2 = parseRs2From20to24(instCode);
