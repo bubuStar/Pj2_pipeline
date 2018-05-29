@@ -56,19 +56,21 @@ public class Decoder {
 
         }
         System.out.println(
-                "BranchNumber      : " + numberOfBranch + "  " + (double)numberOfBranch / 123657 + "  \n"
-                + "R_ALUNumber       : " + numberOfR_ALU+ "  " + (double)numberOfR_ALU / 123657 + "\n"
-                + "I_ALUNumber       : " + numberOfI_ALU + "  " + (double)numberOfI_ALU / 123657 + "\n"
+                "Branch_Number      : " + numberOfBranch + "  " + (double)numberOfBranch / 123657 + "  \n"
+                + "R_ALU_Number       : " + numberOfR_ALU+ "  " + (double)numberOfR_ALU / 123657 + "\n"
+                + "I_ALU_Number       : " + numberOfI_ALU + "  " + (double)numberOfI_ALU / 123657 + "\n"
                 + "Total ALU Number  : " + String.valueOf(numberOfI_ALU + numberOfR_ALU) + "  " + (double)(numberOfI_ALU + numberOfR_ALU) / 123657+"\n"
-                + "LWNumber          : " + numberOfLw + "  " + (double)numberOfLw / 123657 + "\n"
-                + "ULWNumber         : " + numberOfULw+"   " + (double)numberOfULw/ 123657 + "\n"
-                + "JALNumber         : " + numberOfJAL +"   " + (double)numberOfJAL/ 123657 + "\n"
-                + "JALRNumber        : " + numberOfJALR+"   " + (double)numberOfJALR/ 123657 + "\n"
-                + "swNumber          : " + numberOfSW+"  " + (double)numberOfSW/ 123657 + "\n"
-                + "NopNumber         : " + numberOfNop+"   " + (double)numberOfNop/ 123657 + "\n"
-                + "TakenBranchNumber : " + numberOfTakenBranch+"      " + (double)numberOfBranch / 123657 + "\n"
+                + "LW_Number          : " + numberOfLw + "  " + (double)numberOfLw / 123657 + "\n"
+                + "UL_WNumber         : " + numberOfULw+"   " + (double)numberOfULw/ 123657 + "\n"
+                + "JAL_Number         : " + numberOfJAL +"   " + (double)numberOfJAL/ 123657 + "\n"
+                + "JALR_Number        : " + numberOfJALR+"   " + (double)numberOfJALR/ 123657 + "\n"
+                + "sw_Number          : " + numberOfSW+"  " + (double)numberOfSW/ 123657 + "\n"
+                + "Nop_Number         : " + numberOfNop+"   " + (double)numberOfNop/ 123657 + "\n"
+                + "TakenBranch_Number : " + numberOfTakenBranch+"      " + (double)numberOfBranch / 123657 + "\n"
                 + "instruction cache accesses: " +String.valueOf (123657 + numberOfJAL + numberOfJALR /*taken branch*/)+"     \n");//taken branch 个数未定，睡醒讨论
+
         Instruction testInstruction = instructionArrayList.get(0);
+
 //        System.out.println("instructionArrayList test item : "+testInstruction.hexCode);
 
 

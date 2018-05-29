@@ -13,17 +13,17 @@ public class Pj2 {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Initialing CPU");
-//        int cacheSize = sc.nextInt();
-//        System.out.println("Please input block size /k Byte");
-//        int blockSize = sc.nextInt();
-//        System.out.println("Please input way associate parameter");
-//        int way = sc.nextInt();
-//        System.out.println("This cache parameter is ");
-//        System.out.println("cache size : "+cacheSize+"\n"+
-//                "block size："+blockSize+"\n"+"way associate "+way);
+
+//        int modeNumber = sc.nextInt();
+//        System.out.println("Please input mode number for calculating miss: /k ");
+//
+//        System.out.println("mode number for calculating miss is : "+modeNumber+"\n");
+//
+//        Simulator simulator = new Simulator(modeNumber);
+
+        Simulator simulator = new Simulator();
 
         Decoder decoder = new Decoder();
-//        decoder.getAddressFromFile();
         decoder.getInstructionFromFile();
     }
 }

@@ -2,11 +2,23 @@ import java.util.HashMap;
 
 public class Simulator {
 
+    public int modeNumber;
+
     int[][] scoreboard;
     static final int MAX_CYCLE_TIME = 400000;
     int clockCycle;
-    Instruction current_EX_instruction;
 
+    Instruction current_IF_instruction;
+    Instruction current_ID_instruction;
+    Instruction current_EX_instruction;
+    Instruction current_MEM_instruction;
+    Instruction current_WB_instruction;
+
+    Instruction exStage_IF_instruction;
+    Instruction exStage_ID_instruction;
+    Instruction exStage_EX_instruction;
+    Instruction exStage_MEM_instruction;
+    Instruction exStage_WB_instruction;
 
     Simulator(){//初始化
         scoreboard = new int [32][4];
@@ -16,6 +28,37 @@ public class Simulator {
         scoreboard[0][3] = MAX_CYCLE_TIME;
         clockCycle = 0 ;
     }
+
+    private void run(int clockCycle){
+
+        doIFstage();
+        doIDstage();
+        doEXstage();
+        doMEMstage();
+        doWBstage();
+
+    }
+
+    private void doIFstage(){
+
+    }
+
+    private void doIDstage(){
+
+    }
+
+    private void doEXstage(){
+
+    }
+
+    private void doMEMstage(){
+
+    }
+
+    private void doWBstage(){
+
+    }
+
 
     private void readScb(int timeStamp, String rs1, String rs2){//r1  r2是传入的寄存器
         int r1 = Integer.valueOf(rs1,2);
