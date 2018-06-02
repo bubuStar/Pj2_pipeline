@@ -40,7 +40,6 @@ public class Instruction {
         } else {
             isTakenBranch = false;
         }
-
         //last one 0010011 I-ALU
     }
 

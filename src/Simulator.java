@@ -2,6 +2,8 @@ import java.util.HashMap;
 
 public class Simulator {
 
+    static final String R0 = "00000";
+
     public int modeNumber;
 
     int[][] scoreboard;
@@ -20,6 +22,8 @@ public class Simulator {
     Instruction exStage_MEM_instruction;
     Instruction exStage_WB_instruction;
 
+    boolean forward_ready;
+
     Simulator(){//初始化
         scoreboard = new int [32][4];
         scoreboard[0][0] = MAX_CYCLE_TIME; //设置R0的SCB
@@ -31,11 +35,14 @@ public class Simulator {
 
     private void run(int clockCycle){
 
-        doIFstage();
-        doIDstage();
-        doEXstage();
-        doMEMstage();
+
         doWBstage();
+        doMEMstage();
+        doEXstage();
+        doIDstage();
+        doIFstage();
+
+
 
     }
 
@@ -60,17 +67,40 @@ public class Simulator {
     }
 
 
-    private void readScb(int timeStamp, String rs1, String rs2){//r1  r2是传入的寄存器
-        int r1 = Integer.valueOf(rs1,2);
-        int r2 = Integer.valueOf(rs2,2);
-        if(scoreboard[r1][1] > timeStamp && scoreboard[r2][1] > timeStamp){
-            current_EX_instruction.timeStamp = Math.max(scoreboard[r1][1],scoreboard[r2][1]);
-        }
-        else if(scoreboard[r1][2] > timeStamp && scoreboard[r2][2] > timeStamp){
-            current_EX_instruction.timeStamp = Math.max(scoreboard[r1][2],scoreboard[r2][2]);
-        }
-        else if(scoreboard[r1][0] > timeStamp && scoreboard[r2][0] > timeStamp){
-            current_EX_instruction.timeStamp = Math.max(scoreboard[r1][0],scoreboard[r2][0]);
+    private boolean readScb(int InstructionTimeStamp, String rs){
+        int rsInt = Integer.valueOf(rs,2);
+        if (rs == R0){
+            return false;
+        } else {
+            if (InstructionTimeStamp <= scoreboard[rsInt][0]){
+                return true;
+            }
+            else if (InstructionTimeStamp == scoreboard[rsInt][1] || InstructionTimeStamp == scoreboard[rsInt][2]){
+                forward_ready = true;
+                return false;
+            }
+            else if (InstructionTimeStamp >= scoreboard[rsInt][3]){
+                return false;
+            }
+            else {
+                return false;
+            }
         }
     }
+
+
+    private void writeScb (int InstructionTimeStamp, String rd, String stage){
+        int rdInt = Integer.valueOf(rd,2);
+        if (rd == R0) {
+            return;
+        } else {
+            if (stage == "ID"){ scoreboard[rdInt][0] = InstructionTimeStamp; }
+            else if (stage == "EX"){ scoreboard[rdInt][1] = InstructionTimeStamp;}
+            else if (stage == "MEM"){ scoreboard[rdInt][2] = InstructionTimeStamp;}
+            else if (stage == "WB"){ scoreboard[rdInt][3] = InstructionTimeStamp;}
+            else {return;}
+        }
+    }
+
+
 }

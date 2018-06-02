@@ -17,6 +17,7 @@ public class Decoder {
     static int numberOfNop = 0;
     static int numberOfULw = 0;
     static int numberOfTakenBranch = 0;
+
 //    public static void getAddressFromFile() throws IOException {
 //
 //
@@ -29,7 +30,7 @@ public class Decoder {
        // System.out.println(addressArray[0]);
 
         List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
-        System.out.println("data file size = "+ dataStringList.size());
+        System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();
         List<Instruction> instructionArrayList = new ArrayList<>();
@@ -56,18 +57,18 @@ public class Decoder {
 
         }
         System.out.println(
-                "Branch_Number      : " + numberOfBranch + "  " + (double)numberOfBranch / 123657 + "  \n"
-                + "R_ALU_Number       : " + numberOfR_ALU+ "  " + (double)numberOfR_ALU / 123657 + "\n"
-                + "I_ALU_Number       : " + numberOfI_ALU + "  " + (double)numberOfI_ALU / 123657 + "\n"
-                + "Total ALU Number  : " + String.valueOf(numberOfI_ALU + numberOfR_ALU) + "  " + (double)(numberOfI_ALU + numberOfR_ALU) / 123657+"\n"
-                + "LW_Number          : " + numberOfLw + "  " + (double)numberOfLw / 123657 + "\n"
-                + "UL_WNumber         : " + numberOfULw+"   " + (double)numberOfULw/ 123657 + "\n"
-                + "JAL_Number         : " + numberOfJAL +"   " + (double)numberOfJAL/ 123657 + "\n"
-                + "JALR_Number        : " + numberOfJALR+"   " + (double)numberOfJALR/ 123657 + "\n"
-                + "sw_Number          : " + numberOfSW+"  " + (double)numberOfSW/ 123657 + "\n"
-                + "Nop_Number         : " + numberOfNop+"   " + (double)numberOfNop/ 123657 + "\n"
-                + "TakenBranch_Number : " + numberOfTakenBranch+"      " + (double)numberOfBranch / 123657 + "\n"
-                + "instruction cache accesses: " +String.valueOf (123657 + numberOfJAL + numberOfJALR /*taken branch*/)+"     \n");//taken branch 个数未定，睡醒讨论
+                "Branch_Number      : " + numberOfBranch + "   frequency over all instruction is " + (double)numberOfBranch / 123657 + "  \n"
+                + "R_ALU_Number       : " + numberOfR_ALU+ "   frequency over all instruction is " + (double)numberOfR_ALU / 123657 + "\n"
+                + "I_ALU_Number       : " + numberOfI_ALU + "   frequency over all instruction is " + (double)numberOfI_ALU / 123657 + "\n"
+                + "Total ALU Number   : " + String.valueOf(numberOfI_ALU + numberOfR_ALU) + "   frequency over all instruction is " + (double)(numberOfI_ALU + numberOfR_ALU) / 123657+"\n"
+                + "LW_Number          : " + numberOfLw + "   frequency over all instruction is " + (double)numberOfLw / 123657 + "\n"
+                + "UL_WNumber         : " + numberOfULw+"   frequency over all instruction is " + (double)numberOfULw/ 123657 + "\n"
+                + "JAL_Number         : " + numberOfJAL +"   frequency over all instruction is " + (double)numberOfJAL/ 123657 + "\n"
+                + "JALR_Number        : " + numberOfJALR+"   frequency over all instruction is " + (double)numberOfJALR/ 123657 + "\n"
+                + "sw_Number          : " + numberOfSW+"   frequency over all instruction is " + (double)numberOfSW/ 123657 + "\n"
+                + "Nop_Number         : " + numberOfNop+"   frequency over all instruction is " + (double)numberOfNop/ 123657 + "\n"
+                + "TakenBranch_Number : " + numberOfTakenBranch+"   frequency over branch instruction is " + (double)numberOfTakenBranch / (double)numberOfBranch + "\n"
+                + "instruction cache accesses: " +String.valueOf (123657 + numberOfJAL + numberOfJALR + numberOfTakenBranch /*taken branch*/)+"     \n");
 
         Instruction testInstruction = instructionArrayList.get(0);
 
