@@ -27,6 +27,7 @@ public class Pj2 {
         decoder.getInstructionFromFile();
 
         simulator.instructionList = decoder.instructionArrayList;
+        simulator.run();
     }
 }
 

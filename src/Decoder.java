@@ -29,7 +29,7 @@ public class Decoder {
         System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();
-        this.instructionArrayList = new ArrayList<>();
+        instructionArrayList = new ArrayList<>();
 
         for (int i = 0; i < dataStringList.size(); i ++){
             String newInstruction = dataStringList.get(i);
