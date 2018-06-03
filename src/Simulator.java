@@ -115,7 +115,7 @@ public class Simulator {
 //                IF_time ++;
                 return;
             }
-            if (instructionCount == 20){
+            if (instructionCount == instructionList.size()){
                 halt = true;
                 return;
             }
@@ -164,7 +164,7 @@ public class Simulator {
             if (3 == ID_instruction.typeCode & ID_instruction.isTakenBranch){
                 //taken branch
                 IF_time += 2;
-                total_stalledCycles += 1;
+                total_stalledCycles += 2;
 
                 boolean instCacheMiss;
                 if (55 == clockCycle % modeNumberInstCache){
@@ -184,6 +184,7 @@ public class Simulator {
             }else if (ID_instruction.typeCode == 4 || ID_instruction.typeCode == 5){
                 //JAL + JALR
                 IF_time += 1;
+                total_stalledCycles ++;
 
                 boolean instCacheMiss;
                 if (55 == clockCycle % modeNumberInstCache){
@@ -341,7 +342,7 @@ public class Simulator {
         if (rd.equals(R0)) {
             return;
         } else {
-            //TODO: 用Inst_time更新scb对不对?
+            
             if (stage.equals("ID")){ scoreboard[rdInt][0] = InstructionTimeStamp; }
             else if (stage.equals("EX")){ scoreboard[rdInt][1] = InstructionTimeStamp;}
             else if (stage.equals("MEM")){ scoreboard[rdInt][2] = InstructionTimeStamp;}
