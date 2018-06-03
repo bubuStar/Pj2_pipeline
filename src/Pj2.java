@@ -18,8 +18,7 @@ public class Pj2 {
 //        System.out.println("Please input mode number for calculating miss: /k ");
 //
 //        System.out.println("mode number for calculating miss is : "+modeNumber+"\n");
-//
-//        Simulator simulator = new Simulator(modeNumber);
+
 
         Simulator simulator = new Simulator();
 
