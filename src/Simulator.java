@@ -102,7 +102,7 @@ public class Simulator {
             instructionCount = 0;
             this.IF_instruction = this.getNewInstruction(0);
             //this.IF_instruction.timeStamp = 2;
-            //System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode +" inst_time : "+ IF_instruction.timeStamp+ " IF_time: "+ IF_time);
+            System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode +" inst_time : "+ IF_instruction.timeStamp+ " IF_time: "+ IF_time);
             instructionCount += 1;
         } else {
             if (clockCycle < IF_time){
@@ -151,7 +151,7 @@ public class Simulator {
 
         if (ID_instruction.timeStamp < ID_time){
             ID_instruction.timeStamp += 1;
-            System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode +" inst_time : "+ ID_instruction.timeStamp+ " ID_time: "+ ID_time+ "  stall");
+            //System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode +" inst_time : "+ ID_instruction.timeStamp+ " ID_time: "+ ID_time+ "  stall");
             return;
         }
 
@@ -302,7 +302,7 @@ public class Simulator {
         }
         System.out.println("WB in cycle : "+clockCycle + "  WB_instruction : "+ WB_instruction.hexCode);
         this.updateScb(WB_instruction.timeStamp,WB_instruction.rd,"WB");
-//        if (WB_instruction.addressValue == 12284){
+//        if (WB_instruction.addressValue == 12296){
 //            halt = true;
 //        }
         WB_time++;
@@ -342,7 +342,7 @@ public class Simulator {
         if (rd.equals(R0)) {
             return;
         } else {
-            
+
             if (stage.equals("ID")){ scoreboard[rdInt][0] = InstructionTimeStamp; }
             else if (stage.equals("EX")){ scoreboard[rdInt][1] = InstructionTimeStamp;}
             else if (stage.equals("MEM")){ scoreboard[rdInt][2] = InstructionTimeStamp;}

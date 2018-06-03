@@ -28,10 +28,12 @@ public class Decoder {
 
     public static void getInstructionFromFile() throws IOException {
 
-        int[] addressArray = helper.readAddressFile(addressFileShortPath);
+//        int[] addressArray = helper.readAddressFile(addressFileShortPath);
+        int[] addressArray = helper.readAddressFile(addressFilePath);
        // System.out.println(addressArray[0]);
 
-        List<String> dataStringList = helper.readInstructionFile(instructionFileShortPath);
+//        List<String> dataStringList = helper.readInstructionFile(instructionFileShortPath);
+        List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
         System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();
