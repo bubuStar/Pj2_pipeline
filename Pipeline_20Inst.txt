@@ -1,11 +1,11 @@
 IF随cycle增加 fetch的指令增加
 IF in cycle : 1  IF_instruction : fb070713 对 fetch第一个指令
-ID in cycle : 2  ID_instruction : fb070713 
+ID in cycle : 2  ID_instruction : fb070713 对 指令1
 IF in cycle : 2  IF_instruction : 04173423 对 fetch第二个指令
-ID in cycle : 3  ID_instruction : 04173423
+ID in cycle : 3  ID_instruction : 04173423 对 指令2
 IF in cycle : 3  IF_instruction : 04273023 对 fetch第三个指令
 MEM in cycle : 4  MEM_instruction : fb070713 
-ID in cycle : 4  ID_instruction : 04273023
+ID in cycle : 4  ID_instruction : 04273023 
 IF in cycle : 4  IF_instruction : 02373c23 对 fetch第四个指令
 WB in cycle : 5  WB_instruction : fb070713
 MEM in cycle : 5  MEM_instruction : fb070713

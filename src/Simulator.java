@@ -63,7 +63,7 @@ public class Simulator {
 
     public void run(){
 
-        while (!halt && clockCycle < 20) {
+        while (!halt ) { //&& clockCycle < 20
             doWBstage();
             doMEMstage();
             doEXstage();
@@ -71,8 +71,8 @@ public class Simulator {
             doIFstage();
             clockCycle ++;
         }
-
-        System.out.println("total cycles : "+clockCycle);
+        int totalCycles = clockCycle - 1;
+        System.out.println("total cycles : "+totalCycles);
         System.out.println("instructionCount ： "  +instructionCount);
         System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
         System.out.println("total_stalledCycles ： "  +total_stalledCycles);
@@ -86,12 +86,17 @@ public class Simulator {
             IF_time = 1 ;
             instructionCount = 0;
             this.IF_instruction = this.getNewInstruction(0);
-            this.IF_instruction.timeStamp = 2;
+            //this.IF_instruction.timeStamp = 2;
             System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
             instructionCount += 1;
         } else {
 
             if (IF_time < clockCycle){
+                return;
+            }
+
+            if (instructionCount == 20){
+                halt = true;
                 return;
             }
 
@@ -110,10 +115,10 @@ public class Simulator {
                 total_stalledCycles += 15;
             }
             System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
-            this.IF_instruction.timeStamp = IF_time + 1;
+
             instructionCount += 1;
         }
-
+        this.IF_instruction.timeStamp = IF_time + 1;
         ID_time = IF_time + 1;
         ID_instruction = IF_instruction;
         IF_time += 1;
@@ -131,6 +136,8 @@ public class Simulator {
         else {
             System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode);
             this.updateScb(ID_instruction.timeStamp,ID_instruction.rd,"ID");
+            this.ID_instruction.timeStamp = ID_time + 1;
+            IF_time = ID_time;
             EX_time = ID_time + 1;
             EX_instruction = ID_instruction;
             ID_time += 1;
@@ -142,13 +149,13 @@ public class Simulator {
         if (clockCycle < 3) {
             return;
         }
-
+        System.out.println("EX in cycle : "+clockCycle + "  EX_instruction : "+ EX_instruction.hexCode);
         //TODO: compare Timestamp
         if (EX_instruction.timeStamp < EX_time){
             EX_instruction.timeStamp += 1;
             return;
         }
-        System.out.println("EX in cycle : "+clockCycle + "  EX_instruction : "+ EX_instruction.hexCode);
+
         this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
 
         boolean needStall;
@@ -160,12 +167,13 @@ public class Simulator {
             total_stalledCycles += 1;
             ID_stalledCycles += 1;
             EX_time += 1;
+            EX_instruction.timeStamp += 1;
             return;
         } else {//继续执行
             this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
 
             if (forward_ready) {
-                forwardCount += 1;
+                forwardCount ++;
                 forward_ready = false;
             }
 
@@ -205,6 +213,7 @@ public class Simulator {
             } else {
                 //other types of instructions
             }
+            EX_instruction.timeStamp = EX_time + 1;
             MEM_time = EX_time + 1;
             MEM_instruction = EX_instruction;
             MEM_time += 1;
@@ -242,6 +251,7 @@ public class Simulator {
             total_stalledCycles += 15;
             ID_stalledCycles += 15;
         }
+        MEM_instruction.timeStamp = MEM_time + 1;
         WB_time = MEM_time + 1;
         WB_instruction = MEM_instruction;
         MEM_time += 1;
@@ -253,11 +263,15 @@ public class Simulator {
             WB_instruction = MEM_instruction;
             return;
         }
+        if (WB_instruction.timeStamp < WB_time){
+            WB_instruction.timeStamp += 1;
+            return;
+        }
         System.out.println("WB in cycle : "+clockCycle + "  WB_instruction : "+ WB_instruction.hexCode);
         this.updateScb(WB_instruction.timeStamp,WB_instruction.rd,"WB");
-        if (WB_instruction.addressValue == 12284){
-            halt = true;
-        }
+//        if (WB_instruction.addressValue == 12284){
+//            halt = true;
+//        }
     }
 
     private Instruction getNewInstruction(int index){
