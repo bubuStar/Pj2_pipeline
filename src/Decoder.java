@@ -7,6 +7,10 @@ public class Decoder {
 
     static String instructionFilePath = "inst_data_riscv_trace_project_2.txt";
     static String addressFilePath = "inst_addr_riscv_trace_project_2.txt";
+
+    static String instructionFileShortPath = "inst_data_riscv_trace_project_2_short.txt";
+    static String addressFileShortPath = "inst_addr_riscv_trace_project_2_short.txt";
+
     static int numberOfLw = 0;
     static int numberOfBranch = 0;
     static int numberOfJAL = 0;
@@ -22,10 +26,10 @@ public class Decoder {
 
     public static void getInstructionFromFile() throws IOException {
 
-        int[] addressArray = helper.readAddressFile(addressFilePath);
+        int[] addressArray = helper.readAddressFile(addressFileShortPath);
        // System.out.println(addressArray[0]);
 
-        List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
+        List<String> dataStringList = helper.readInstructionFile(instructionFileShortPath);
         System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();

@@ -58,12 +58,12 @@ public class Simulator {
         scoreboard[0][1] = MAX_CYCLE_TIME;
         scoreboard[0][2] = MAX_CYCLE_TIME;
         scoreboard[0][3] = MAX_CYCLE_TIME;
-        clockCycle = 0 ;
+        clockCycle = 1 ;
     }
 
     public void run(){
 
-        while (!halt && clockCycle < 123657) {
+        while (!halt && clockCycle < 20) {
             doWBstage();
             doMEMstage();
             doEXstage();
@@ -82,11 +82,12 @@ public class Simulator {
 
     private void doIFstage(){
 
-        if (clockCycle == 0){
+        if (clockCycle == 1){
             IF_time = 1 ;
             instructionCount = 0;
             this.IF_instruction = this.getNewInstruction(0);
             this.IF_instruction.timeStamp = 2;
+            System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
             instructionCount += 1;
         } else {
 
@@ -108,10 +109,11 @@ public class Simulator {
                 IF_time += 15;
                 total_stalledCycles += 15;
             }
-
+            System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
             this.IF_instruction.timeStamp = IF_time + 1;
             instructionCount += 1;
         }
+
         ID_time = IF_time + 1;
         ID_instruction = IF_instruction;
         IF_time += 1;
@@ -127,6 +129,7 @@ public class Simulator {
             return;
         }
         else {
+            System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode);
             this.updateScb(ID_instruction.timeStamp,ID_instruction.rd,"ID");
             EX_time = ID_time + 1;
             EX_instruction = ID_instruction;
@@ -139,13 +142,13 @@ public class Simulator {
         if (clockCycle < 3) {
             return;
         }
-        System.out.println("EX in cycle : "+clockCycle);
+
         //TODO: compare Timestamp
         if (EX_instruction.timeStamp < EX_time){
             EX_instruction.timeStamp += 1;
             return;
         }
-
+        System.out.println("EX in cycle : "+clockCycle + "  EX_instruction : "+ EX_instruction.hexCode);
         this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
 
         boolean needStall;
@@ -211,17 +214,20 @@ public class Simulator {
     private void doMEMstage(){
         if (clockCycle < 4) {
             MEM_instruction = EX_instruction;
+            //System.out.println("MEM in cycle <4 : "+clockCycle + "MEM_instruction : "+ MEM_instruction.hexCode);
             return;
         }
      //   System.out.println("Test clock cycle : " + clockCycle);
        // System.out.println("Test pointer : " + MEM_instruction.timeStamp );
 
-        System.out.println("MEM in cycle : "+clockCycle);
+
 
         if (MEM_instruction.timeStamp < MEM_time){
             MEM_instruction.timeStamp += 1;
             return;
         }
+
+        System.out.println("MEM in cycle : "+clockCycle + "  MEM_instruction : "+ MEM_instruction.hexCode);
 
         this.updateScb(MEM_instruction.timeStamp,MEM_instruction.rd,"MEM");
         //judge data cache miss
@@ -247,9 +253,9 @@ public class Simulator {
             WB_instruction = MEM_instruction;
             return;
         }
-        System.out.println("WB in cycle : "+clockCycle);
+        System.out.println("WB in cycle : "+clockCycle + "  WB_instruction : "+ WB_instruction.hexCode);
         this.updateScb(WB_instruction.timeStamp,WB_instruction.rd,"WB");
-        if (WB_instruction.addressValue == 12296){
+        if (WB_instruction.addressValue == 12284){
             halt = true;
         }
     }

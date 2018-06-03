@@ -1,0 +1,68 @@
+IF随cycle增加 fetch的指令增加
+IF in cycle : 1  IF_instruction : fb070713 对 fetch第一个指令
+ID in cycle : 2  ID_instruction : fb070713 
+IF in cycle : 2  IF_instruction : 04173423 对 fetch第二个指令
+ID in cycle : 3  ID_instruction : 04173423
+IF in cycle : 3  IF_instruction : 04273023 对 fetch第三个指令
+MEM in cycle : 4  MEM_instruction : fb070713 
+ID in cycle : 4  ID_instruction : 04273023
+IF in cycle : 4  IF_instruction : 02373c23 对 fetch第四个指令
+WB in cycle : 5  WB_instruction : fb070713
+MEM in cycle : 5  MEM_instruction : fb070713
+ID in cycle : 5  ID_instruction : 02373c23
+IF in cycle : 5  IF_instruction : 02473823 对
+WB in cycle : 6  WB_instruction : fb070713
+MEM in cycle : 6  MEM_instruction : fb070713
+ID in cycle : 6  ID_instruction : 02473823
+IF in cycle : 6  IF_instruction : 02573423
+WB in cycle : 7  WB_instruction : fb070713
+MEM in cycle : 7  MEM_instruction : fb070713
+ID in cycle : 7  ID_instruction : 02573423
+IF in cycle : 7  IF_instruction : 02673023
+WB in cycle : 8  WB_instruction : fb070713
+ID in cycle : 8  ID_instruction : 02673023
+IF in cycle : 8  IF_instruction : 00773c23
+WB in cycle : 9  WB_instruction : fb070713
+MEM in cycle : 9  MEM_instruction : fb070713
+ID in cycle : 9  ID_instruction : 00773c23
+IF in cycle : 9  IF_instruction : 00873823
+WB in cycle : 10  WB_instruction : fb070713
+ID in cycle : 10  ID_instruction : 00873823
+IF in cycle : 10  IF_instruction : 00973423
+WB in cycle : 11  WB_instruction : fb070713
+MEM in cycle : 11  MEM_instruction : fb070713
+ID in cycle : 11  ID_instruction : 00973423
+IF in cycle : 11  IF_instruction : 00a73023
+WB in cycle : 12  WB_instruction : fb070713
+ID in cycle : 12  ID_instruction : 00a73023
+IF in cycle : 12  IF_instruction : 05070113
+WB in cycle : 13  WB_instruction : fb070713
+MEM in cycle : 13  MEM_instruction : fb070713
+ID in cycle : 13  ID_instruction : 05070113
+IF in cycle : 13  IF_instruction : d8070713
+WB in cycle : 14  WB_instruction : fb070713
+ID in cycle : 14  ID_instruction : d8070713
+IF in cycle : 14  IF_instruction : ea5ff0ef
+WB in cycle : 15  WB_instruction : fb070713
+MEM in cycle : 15  MEM_instruction : fb070713
+ID in cycle : 15  ID_instruction : ea5ff0ef
+IF in cycle : 15  IF_instruction : 00090463
+WB in cycle : 16  WB_instruction : fb070713
+ID in cycle : 16  ID_instruction : 00090463
+IF in cycle : 16  IF_instruction : 00008067
+WB in cycle : 17  WB_instruction : fb070713
+MEM in cycle : 17  MEM_instruction : fb070713
+ID in cycle : 17  ID_instruction : 00008067
+IF in cycle : 17  IF_instruction : 03f70493
+WB in cycle : 18  WB_instruction : fb070713
+ID in cycle : 18  ID_instruction : 03f70493
+IF in cycle : 18  IF_instruction : 00000913
+WB in cycle : 19  WB_instruction : fb070713
+MEM in cycle : 19  MEM_instruction : fb070713
+ID in cycle : 19  ID_instruction : 00000913
+IF in cycle : 19  IF_instruction : 00000993
+total cycles : 20
+instructionCount ： 19
+ID_stalledCycles ： 0
+total_stalledCycles ： 0
+ forwardCount ： 0
