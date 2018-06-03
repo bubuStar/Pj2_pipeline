@@ -1,20 +1,33 @@
 import java.util.HashMap;
+import java.util.List;
 
 public class Simulator {
 
     static final String R0 = "00000";
 
+    static List<Instruction> instructionList;
+
     public int modeNumber;
 
     int[][] scoreboard;
     static final int MAX_CYCLE_TIME = 400000;
+
     int clockCycle;
 
-    Instruction current_IF_instruction;
-    Instruction current_ID_instruction;
-    Instruction current_EX_instruction;
-    Instruction current_MEM_instruction;
-    Instruction current_WB_instruction;
+    int instructionCount = 0;
+
+
+    Instruction IF_instruction;
+    Instruction ID_instruction;
+    Instruction EX_instruction;
+    Instruction MEM_instruction;
+    Instruction WB_instruction;
+
+    int IF_time;
+    int ID_time;
+    int EX_time;
+    int MEM_time;
+    int WB_time;
 
     Instruction exStage_IF_instruction;
     Instruction exStage_ID_instruction;
@@ -47,6 +60,14 @@ public class Simulator {
     }
 
     private void doIFstage(){
+        if (clockCycle = 0){
+            instructionCount = 0;
+         this.getNewInstruction(0);
+         instructionCount += 1;
+        } else {
+            this.getNewInstruction(instructionCount);
+            instructionCount += 1;
+        }
 
     }
 
@@ -66,6 +87,10 @@ public class Simulator {
 
     }
 
+    private Instruction getNewInstruction(int index){
+        Instruction instruction = instructionList.get(index);
+        return instruction;
+    }
 
     private boolean readScb(int InstructionTimeStamp, String rs){
         int rsInt = Integer.valueOf(rs,2);
@@ -89,7 +114,7 @@ public class Simulator {
     }
 
 
-    private void writeScb (int InstructionTimeStamp, String rd, String stage){
+    private void updateScb (int InstructionTimeStamp, String rd, String stage){
         int rdInt = Integer.valueOf(rd,2);
         if (rd == R0) {
             return;

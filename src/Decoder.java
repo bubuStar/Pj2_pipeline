@@ -18,11 +18,7 @@ public class Decoder {
     static int numberOfULw = 0;
     static int numberOfTakenBranch = 0;
 
-//    public static void getAddressFromFile() throws IOException {
-//
-//
-//
-//    }
+    static List<Instruction> instructionArrayList;
 
     public static void getInstructionFromFile() throws IOException {
 
@@ -33,7 +29,7 @@ public class Decoder {
         System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();
-        List<Instruction> instructionArrayList = new ArrayList<>();
+        this.instructionArrayList = new ArrayList<>();
 
         for (int i = 0; i < dataStringList.size(); i ++){
             String newInstruction = dataStringList.get(i);
@@ -109,6 +105,12 @@ public class Decoder {
         //System.out.println(opCode);
 //        parseOpcode(newInstrucBinary,opCode);
     }
+
+    //    public static void getAddressFromFile() throws IOException {
+//
+//
+//
+//    }
 
 //    public static void parseOpcode (String instCode, String opcode) {
 //        if (opcode.equals("0000011")==true) { //I type load instructions:
