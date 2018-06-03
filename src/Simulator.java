@@ -55,9 +55,17 @@ public class Simulator {
     boolean MEM_halt;
     boolean WB_halt;
 
-    Simulator(){//初始化
-        modeNumberInstCache = 128;
-        modeNumberDataCache = 32;
+    Simulator(int cases){//初始化
+        switch (cases){
+            case 1: modeNumberInstCache = 128;
+                modeNumberDataCache = 16; break;
+            case 2: modeNumberInstCache = 64;
+                modeNumberDataCache = 16;break;
+            case 3: modeNumberInstCache = 128;
+                modeNumberDataCache = 32;break;
+            case 4: System.exit(0);
+        }
+
         halt = false;
         forward_ready = false;
 

@@ -21,11 +21,23 @@ public class Decoder {
     static int numberOfNop = 0;
     static int numberOfULw = 0;
     static int numberOfTakenBranch = 0;
-
     static int instCacheAccess;
 
     static List<Instruction> instructionArrayList;
 
+    Decoder(){
+         numberOfLw = 0;
+         numberOfBranch = 0;
+         numberOfJAL = 0;
+         numberOfJALR = 0;
+         numberOfR_ALU = 0;
+         numberOfI_ALU = 0;
+         numberOfSW = 0;
+         numberOfNop = 0;
+         numberOfULw = 0;
+         numberOfTakenBranch = 0;
+         instCacheAccess = 0;
+    }
     public static void getInstructionFromFile() throws IOException {
 
 //        int[] addressArray = helper.readAddressFile(addressFileShortPath);
