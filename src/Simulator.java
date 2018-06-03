@@ -63,7 +63,7 @@ public class Simulator {
 
     public void run(){
 
-        while (!halt) {
+        while (!halt && clockCycle < 123657) {
             doWBstage();
             doMEMstage();
             doEXstage();
@@ -71,7 +71,13 @@ public class Simulator {
             doIFstage();
             clockCycle ++;
         }
+
         System.out.println("total cycles : "+clockCycle);
+        System.out.println("instructionCount ： "  +instructionCount);
+        System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
+        System.out.println("total_stalledCycles ： "  +total_stalledCycles);
+        System.out.println(" forwardCount ： "  + forwardCount);
+
     }
 
     private void doIFstage(){
@@ -102,6 +108,7 @@ public class Simulator {
                 IF_time += 15;
                 total_stalledCycles += 15;
             }
+
             this.IF_instruction.timeStamp = IF_time + 1;
             instructionCount += 1;
         }
@@ -203,8 +210,11 @@ public class Simulator {
 
     private void doMEMstage(){
         if (clockCycle < 4) {
+            MEM_instruction = EX_instruction;
             return;
         }
+     //   System.out.println("Test clock cycle : " + clockCycle);
+       // System.out.println("Test pointer : " + MEM_instruction.timeStamp );
 
         System.out.println("MEM in cycle : "+clockCycle);
 
@@ -234,6 +244,7 @@ public class Simulator {
     private void doWBstage(){
 
         if (clockCycle < 5) {
+            WB_instruction = MEM_instruction;
             return;
         }
         System.out.println("WB in cycle : "+clockCycle);
@@ -244,7 +255,9 @@ public class Simulator {
     }
 
     private Instruction getNewInstruction(int index){
-        Instruction instruction = instructionList.get(index);
+        Instruction instruction = null;
+        if(index < 123657)
+        instruction = instructionList.get(index);
         return instruction;
     }
 
