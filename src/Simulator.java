@@ -79,7 +79,7 @@ public class Simulator {
             doIFstage();
             clockCycle ++;
         }
-        int totalCycles = clockCycle;
+        int totalCycles = clockCycle + 3;
         System.out.println("total cycles : "+totalCycles);
         System.out.println("instructionCount ： "  +instructionCount);
         System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
@@ -95,17 +95,26 @@ public class Simulator {
 
         if (clockCycle == 1){
             IF_time = 1 ;
+            ID_time = 2;
+            EX_time = 3;
+            MEM_time = 4;
+            WB_time = 5;
             instructionCount = 0;
             this.IF_instruction = this.getNewInstruction(0);
             //this.IF_instruction.timeStamp = 2;
-            System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
+            //System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode +" inst_time : "+ IF_instruction.timeStamp+ " IF_time: "+ IF_time);
             instructionCount += 1;
         } else {
-
             if (clockCycle < IF_time){
+                IF_instruction = new Instruction("0018081b"); //let IF_istruction = nop
+                IF_instruction.timeStamp = IF_time + 1;
+                System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode+" inst_time : "+ IF_instruction.timeStamp + " IF_time: "+ IF_time);
+
+                //        ID_time = IF_time + 1;
+                ID_instruction = IF_instruction;
+//                IF_time ++;
                 return;
             }
-
             if (instructionCount == 20){
                 halt = true;
                 return;
@@ -126,14 +135,13 @@ public class Simulator {
                 IF_time += 15;
                 total_stalledCycles += 15;
             }
-            System.out.println("IF in cycle : "+clockCycle + "  IF_instruction : "+ IF_instruction.hexCode);
-
             instructionCount += 1;
         }
         IF_instruction.timeStamp = IF_time + 1;
-        ID_time = IF_time + 1;
+//        ID_time = IF_time + 1;
+        System.out.println("IF in cycle : "+clockCycle +  "  IF_instruction : "+ IF_instruction.hexCode +" inst_time : "+ IF_instruction.timeStamp+ " IF_time: "+ IF_time);
         ID_instruction = IF_instruction;
-        IF_time += 1;
+        IF_time ++;
     }
 
     private void doIDstage(){
@@ -143,53 +151,17 @@ public class Simulator {
 
         if (ID_instruction.timeStamp < ID_time){
             ID_instruction.timeStamp += 1;
+            System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode +" inst_time : "+ ID_instruction.timeStamp+ " ID_time: "+ ID_time+ "  stall");
             return;
         }
+
         else {
-            System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode);
+            System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode+" inst_time : "+ ID_instruction.timeStamp+ " ID_time: "+ ID_time);
             this.updateScb(ID_instruction.timeStamp,ID_instruction.rd,"ID");
-            ID_instruction.timeStamp = ID_time + 1;
-            IF_time = ID_time;
-            EX_time = ID_time + 1;
-            EX_instruction = ID_instruction;
-            ID_time += 1;
-        }
 
-    }
 
-    private void doEXstage(){
-        if (clockCycle < 3) {
-            return;
-        }
-        System.out.println("EX in cycle : "+clockCycle + "  EX_instruction : "+ EX_instruction.hexCode);
-        //TODO: compare Timestamp
-        if (EX_instruction.timeStamp < EX_time){
-            EX_instruction.timeStamp += 1;
-            return;
-        }
 
-        this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
-
-        boolean needStall;
-        boolean needStallRs1 = readScb(EX_instruction.timeStamp, EX_instruction.rs1);
-        boolean needStallRs2 = readScb(EX_instruction.timeStamp, EX_instruction.rs2);
-        needStall = needStallRs1 || needStallRs2;
-
-        if (needStall) {
-            total_stalledCycles += 1;
-            ID_stalledCycles += 1;
-            EX_time += 1;
-            EX_instruction.timeStamp += 1;
-            return;
-        } else {//继续执行
-            this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
-
-            if (forward_ready) {
-                forwardCount ++;
-                forward_ready = false;
-            }
-
-            if (3 == EX_instruction.typeCode & EX_instruction.isTakenBranch){
+            if (3 == ID_instruction.typeCode & ID_instruction.isTakenBranch){
                 //taken branch
                 IF_time += 2;
                 total_stalledCycles += 1;
@@ -205,11 +177,11 @@ public class Simulator {
                     IF_time += 15;
                     total_stalledCycles += 15;
                 }
-            }else if (3 == EX_instruction.typeCode & !EX_instruction.isTakenBranch){
+            }else if (3 == ID_instruction.typeCode & !ID_instruction.isTakenBranch){
                 //non-taken branch
                 IF_time += 1;
                 total_stalledCycles += 1;
-            }else if (EX_instruction.typeCode == 4 || EX_instruction.typeCode == 5){
+            }else if (ID_instruction.typeCode == 4 || ID_instruction.typeCode == 5){
                 //JAL + JALR
                 IF_time += 1;
 
@@ -224,19 +196,76 @@ public class Simulator {
                     IF_time += 15;
                     total_stalledCycles += 15;
                 }
+            } else if (ID_instruction.typeCode == 0){
+                //load
+                boolean dataCacheMiss;
+                if (11 == clockCycle % modeNumberDataCache){
+                    dataCacheMiss = true;
+                } else {
+                    hitCountDataCache ++;
+                    dataCacheMiss = false;
+                }
+                if (dataCacheMiss){
+                    total_stalledCycles += 15;
+                    ID_stalledCycles += 15;
+                    IF_time += 15;
+                }
             } else {
                 //other types of instructions
             }
+
+            ID_instruction.timeStamp = ID_time + 1;
+//            IF_time = ID_time;
+//            EX_time = ID_time + 1;
+            EX_instruction = ID_instruction;
+            ID_time ++;
+        }
+
+    }
+
+    private void doEXstage(){
+        if (clockCycle < 3) {
+            return;
+        }
+        System.out.println("EX in cycle : "+clockCycle + "  EX_instruction : "+ EX_instruction.hexCode);
+
+        if (EX_instruction.timeStamp < EX_time){
+            EX_instruction.timeStamp += 1;
+            return;
+        }
+
+
+        boolean needStall;
+        boolean needStallRs1 = readScb(EX_instruction.timeStamp, EX_instruction.rs1);
+        boolean needStallRs2 = readScb(EX_instruction.timeStamp, EX_instruction.rs2);
+        needStall = needStallRs1 || needStallRs2;
+
+        if (needStall) {
+            total_stalledCycles += 1;
+            ID_stalledCycles += 1;
+            EX_time += 1;
+            ID_time += 1;
+            IF_time ++;
+            EX_instruction.timeStamp += 1;
+            return;
+        } else {//继续执行
+
+
+            if (forward_ready) {
+                forwardCount ++;
+                forward_ready = false;
+            }
+            this.updateScb(EX_instruction.timeStamp,EX_instruction.rd,"EX");
             EX_instruction.timeStamp = EX_time + 1;
-            MEM_time = EX_time + 1;
+//            MEM_time = EX_time + 1;
             MEM_instruction = EX_instruction;
-            MEM_time += 1;
+            EX_time ++;
         }
     }
 
     private void doMEMstage(){
         if (clockCycle < 4) {
-            MEM_instruction = EX_instruction;
+//            MEM_instruction = EX_instruction;
             //System.out.println("MEM in cycle <4 : "+clockCycle + "MEM_instruction : "+ MEM_instruction.hexCode);
             return;
         }
@@ -253,28 +282,17 @@ public class Simulator {
 
         this.updateScb(MEM_instruction.timeStamp,MEM_instruction.rd,"MEM");
         //judge data cache miss
-        boolean dataCacheMiss;
-        if (11 == clockCycle % modeNumberDataCache){
-            dataCacheMiss = true;
-        } else {
-            hitCountDataCache ++;
-            dataCacheMiss = false;
-        }
-        if (dataCacheMiss){
-            MEM_time += 15;
-            total_stalledCycles += 15;
-            ID_stalledCycles += 15;
-        }
+
         MEM_instruction.timeStamp = MEM_time + 1;
-        WB_time = MEM_time + 1;
+//        WB_time = MEM_time + 1;
         WB_instruction = MEM_instruction;
-        MEM_time += 1;
+        MEM_time ++;
     }
 
     private void doWBstage(){
 
         if (clockCycle < 5) {
-            WB_instruction = MEM_instruction;
+//            WB_instruction = MEM_instruction;
             return;
         }
         if (WB_instruction.timeStamp < WB_time){
@@ -286,6 +304,7 @@ public class Simulator {
 //        if (WB_instruction.addressValue == 12284){
 //            halt = true;
 //        }
+        WB_time++;
     }
 
     private Instruction getNewInstruction(int index){
