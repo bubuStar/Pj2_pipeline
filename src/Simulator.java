@@ -79,7 +79,7 @@ public class Simulator {
             doIFstage();
             clockCycle ++;
         }
-        int totalCycles = clockCycle - 1;
+        int totalCycles = clockCycle;
         System.out.println("total cycles : "+totalCycles);
         System.out.println("instructionCount ： "  +instructionCount);
         System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
@@ -88,7 +88,7 @@ public class Simulator {
         System.out.println(" hit in Inst cache ： "  + hitCountInstCache);
         System.out.println(" hit in Data cache ： "  + hitCountDataCache);
         System.out.println(" hit Ratio of Inst Cache ： "  + (double)hitCountInstCache / Decoder.instCacheAccess);
-
+        System.out.println(" hit Ratio of Data Cache ： "  + (double)hitCountDataCache / Decoder.numberOfLw);
     }
 
     private void doIFstage(){
