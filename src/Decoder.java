@@ -22,6 +22,8 @@ public class Decoder {
     static int numberOfULw = 0;
     static int numberOfTakenBranch = 0;
 
+    static int instCacheAccess;
+
     static List<Instruction> instructionArrayList;
 
     public static void getInstructionFromFile() throws IOException {
@@ -56,6 +58,9 @@ public class Decoder {
 //                    +"============================================="+"\n");
 
         }
+
+        instCacheAccess = 123657+ numberOfJAL + numberOfJALR + numberOfTakenBranch;
+
         System.out.println(
                 "Branch_Number      : " + numberOfBranch + "   frequency over all instruction is " + (double)numberOfBranch / 123657 + "  \n"
                 + "R_ALU_Number       : " + numberOfR_ALU+ "   frequency over all instruction is " + (double)numberOfR_ALU / 123657 + "\n"
@@ -68,9 +73,9 @@ public class Decoder {
                 + "sw_Number          : " + numberOfSW+"   frequency over all instruction is " + (double)numberOfSW/ 123657 + "\n"
                 + "Nop_Number         : " + numberOfNop+"   frequency over all instruction is " + (double)numberOfNop/ 123657 + "\n"
                 + "TakenBranch_Number : " + numberOfTakenBranch+"   frequency over branch instruction is " + (double)numberOfTakenBranch / (double)numberOfBranch + "\n"
-                + "instruction cache accesses: " +String.valueOf (123657 + numberOfJAL + numberOfJALR + numberOfTakenBranch /*taken branch*/)+"     \n");
+                + "instruction cache accesses: " +instCacheAccess+ "    \n");
 
-        Instruction testInstruction = instructionArrayList.get(0);
+//        Instruction testInstruction = instructionArrayList.get(0);
 
 //        System.out.println("instructionArrayList test item : "+testInstruction.hexCode);
 

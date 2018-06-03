@@ -19,6 +19,8 @@ public class Simulator {
     int ID_stalledCycles;
     int total_stalledCycles;
     int forwardCount;
+    int hitCountInstCache;
+    int hitCountDataCache;
 
     Instruction IF_instruction;
     Instruction ID_instruction;
@@ -46,6 +48,12 @@ public class Simulator {
 
     boolean forward_ready;
     boolean halt;
+
+    boolean IF_halt;
+    boolean ID_halt;
+    boolean EX_halt;
+    boolean MEM_halt;
+    boolean WB_halt;
 
     Simulator(){//初始化
         modeNumberInstCache = 128;
@@ -77,6 +85,9 @@ public class Simulator {
         System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
         System.out.println("total_stalledCycles ： "  +total_stalledCycles);
         System.out.println(" forwardCount ： "  + forwardCount);
+        System.out.println(" hit in Inst cache ： "  + hitCountInstCache);
+        System.out.println(" hit in Data cache ： "  + hitCountDataCache);
+        System.out.println(" hit Ratio of Inst Cache ： "  + (double)hitCountInstCache / Decoder.instCacheAccess);
 
     }
 
@@ -91,7 +102,7 @@ public class Simulator {
             instructionCount += 1;
         } else {
 
-            if (IF_time < clockCycle){
+            if (clockCycle < IF_time){
                 return;
             }
 
@@ -105,9 +116,10 @@ public class Simulator {
 
             //IF judge miss
             boolean instCacheMiss;
-            if (55 == clockCycle % 128){
+            if (55 == clockCycle % modeNumberInstCache){
                 instCacheMiss = true;
             } else {
+                hitCountInstCache ++;
                 instCacheMiss = false;
             }
             if (instCacheMiss){
@@ -118,7 +130,7 @@ public class Simulator {
 
             instructionCount += 1;
         }
-        this.IF_instruction.timeStamp = IF_time + 1;
+        IF_instruction.timeStamp = IF_time + 1;
         ID_time = IF_time + 1;
         ID_instruction = IF_instruction;
         IF_time += 1;
@@ -136,7 +148,7 @@ public class Simulator {
         else {
             System.out.println("ID in cycle : "+clockCycle + "  ID_instruction : "+ ID_instruction.hexCode);
             this.updateScb(ID_instruction.timeStamp,ID_instruction.rd,"ID");
-            this.ID_instruction.timeStamp = ID_time + 1;
+            ID_instruction.timeStamp = ID_time + 1;
             IF_time = ID_time;
             EX_time = ID_time + 1;
             EX_instruction = ID_instruction;
@@ -183,10 +195,11 @@ public class Simulator {
                 total_stalledCycles += 1;
 
                 boolean instCacheMiss;
-                if (55 == clockCycle % 128){
+                if (55 == clockCycle % modeNumberInstCache){
                     instCacheMiss = true;
                 } else {
                     instCacheMiss = false;
+                    hitCountInstCache ++;
                 }
                 if (instCacheMiss){
                     IF_time += 15;
@@ -201,9 +214,10 @@ public class Simulator {
                 IF_time += 1;
 
                 boolean instCacheMiss;
-                if (55 == clockCycle % 128){
+                if (55 == clockCycle % modeNumberInstCache){
                     instCacheMiss = true;
                 } else {
+                    hitCountInstCache++;
                     instCacheMiss = false;
                 }
                 if (instCacheMiss){
@@ -230,7 +244,6 @@ public class Simulator {
        // System.out.println("Test pointer : " + MEM_instruction.timeStamp );
 
 
-
         if (MEM_instruction.timeStamp < MEM_time){
             MEM_instruction.timeStamp += 1;
             return;
@@ -241,9 +254,10 @@ public class Simulator {
         this.updateScb(MEM_instruction.timeStamp,MEM_instruction.rd,"MEM");
         //judge data cache miss
         boolean dataCacheMiss;
-        if (55 == clockCycle % 128){
+        if (11 == clockCycle % modeNumberDataCache){
             dataCacheMiss = true;
         } else {
+            hitCountDataCache ++;
             dataCacheMiss = false;
         }
         if (dataCacheMiss){
