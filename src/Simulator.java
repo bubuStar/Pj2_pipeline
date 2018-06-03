@@ -5,7 +5,7 @@ public class Simulator {
 
     static final String R0 = "00000";
 
-    static List<Instruction> instructionList;
+    List<Instruction> instructionList;
 
     public int modeNumber;
 
@@ -14,14 +14,21 @@ public class Simulator {
 
     int clockCycle;
 
-    int instructionCount = 0;
-
+    int instructionCount;
+    int ID_stalledCycles;
+    int total_stalledCycles;
 
     Instruction IF_instruction;
     Instruction ID_instruction;
     Instruction EX_instruction;
     Instruction MEM_instruction;
     Instruction WB_instruction;
+
+    Instruction IF_exinstruction;
+    Instruction ID_exinstruction;
+    Instruction EX_exinstruction;
+    Instruction MEM_exinstruction;
+    Instruction WB_exinstruction;
 
     int IF_time;
     int ID_time;
@@ -55,27 +62,51 @@ public class Simulator {
         doIDstage();
         doIFstage();
 
-
-
     }
 
     private void doIFstage(){
         if (clockCycle = 0){
+            IF_time = 1 ;
             instructionCount = 0;
-         this.getNewInstruction(0);
-         instructionCount += 1;
+            this.IF_instruction = this.getNewInstruction(0);
+            this.IF_instruction.timeStamp = 2;
+            instructionCount += 1;
         } else {
             this.getNewInstruction(instructionCount);
+            this.IF_instruction = this.getNewInstruction(instructionCount);
+            this.IF_instruction.timeStamp = IF_time + 1;
             instructionCount += 1;
         }
-
+        ID_time = IF_time + 1;
+        ID_instruction = IF_instruction;
+        IF_time += 1;
     }
 
     private void doIDstage(){
-
+        if (clockCycle < 2){
+            return;
+        }else {
+            if (ID_instruction.timeStamp < ID_time){
+                ID_instruction.timeStamp += 1;
+                return;
+            }
+            else {
+                MEM_time = ID_time + 1;
+                MEM_instruction = ID_instruction;
+                ID_time += 1;
+            }
+        }
     }
 
     private void doEXstage(){
+
+        boolean needStall;
+        boolean needStallRs1 = readScb(EX_instruction.timeStamp, EX_instruction.rs1);
+        boolean needStallRs2 = readScb(EX_instruction.timeStamp, EX_instruction.rs2);
+        if (needStall) {
+            total_stalledCycles += 1;
+
+        }
 
     }
 
