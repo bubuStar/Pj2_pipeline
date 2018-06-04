@@ -28,11 +28,6 @@ public class Simulator {
     Instruction MEM_instruction;
     Instruction WB_instruction;
 
-    Instruction IF_exinstruction;
-    Instruction ID_exinstruction;
-    Instruction EX_exinstruction;
-    Instruction MEM_exinstruction;
-    Instruction WB_exinstruction;
 
     int IF_time;
     int ID_time;
@@ -40,11 +35,7 @@ public class Simulator {
     int MEM_time;
     int WB_time;
 
-    Instruction exStage_IF_instruction;
-    Instruction exStage_ID_instruction;
-    Instruction exStage_EX_instruction;
-    Instruction exStage_MEM_instruction;
-    Instruction exStage_WB_instruction;
+
 
     boolean forward_ready;
     boolean halt;
@@ -89,17 +80,20 @@ public class Simulator {
         }
         int totalCycles = clockCycle + 3;
         double IPC = (double) 123657 / totalCycles;
-        System.out.println("total cycles : "+totalCycles);
-        System.out.println("instructionCount ： "  +instructionCount);
-        System.out.println("ID_stalledCycles ： "  +ID_stalledCycles);
-        System.out.println("total_stalledCycles ： "  +total_stalledCycles);
-        System.out.println(" forwardCount ： "  + forwardCount);
+        System.out.println(" total cycles : "+totalCycles);
+        System.out.println(" instruction Count ： "  +instructionCount);
+        System.out.println(" ID stalled Cycles ： "  +ID_stalledCycles);
+        System.out.println(" total stalled Cycles ： "  +total_stalledCycles);
+        System.out.println(" forward Count ： "  + forwardCount);
         System.out.println(" hit in Inst cache ： "  + hitCountInstCache);
         System.out.println(" hit in Data cache ： "  + hitCountDataCache);
         System.out.println(" hit Ratio of Inst Cache ： "  + (double)hitCountInstCache / Decoder.instCacheAccess);
         System.out.println(" hit Ratio of Data Cache ： "  + (double)hitCountDataCache / Decoder.numberOfLw);
         System.out.println(" IPC ： "  + IPC);
         System.out.println(" Percentage of stalled cycles over total cycles ： "  + (double)total_stalledCycles/totalCycles);
+        System.out.println(" Pipeline execution finished");
+        System.out.println("=================================================================");
+        System.out.println(" ");
     }
 
     private void doIFstage(){

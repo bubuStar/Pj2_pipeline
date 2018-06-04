@@ -46,6 +46,9 @@ public class Decoder {
 
 //        List<String> dataStringList = helper.readInstructionFile(instructionFileShortPath);
         List<String> dataStringList = helper.readInstructionFile(instructionFilePath);
+
+        System.out.println("=================================================================");
+        System.out.println("Result of experiment is :");
         System.out.println("total instruction count(data file size) = "+ dataStringList.size());
 
 //        ArrayList instructionArrayList = new ArrayList();
@@ -76,6 +79,7 @@ public class Decoder {
         instCacheAccess = 123657+ numberOfJAL + numberOfJALR + numberOfTakenBranch;
 
         System.out.println(
+                "  \n"+
                 "Branch_Number      : " + numberOfBranch + "   frequency over all instruction is " + (double)numberOfBranch / 123657 + "  \n"
                 + "R_ALU_Number       : " + numberOfR_ALU+ "   frequency over all instruction is " + (double)numberOfR_ALU / 123657 + "\n"
                 + "I_ALU_Number       : " + numberOfI_ALU + "   frequency over all instruction is " + (double)numberOfI_ALU / 123657 + "\n"
